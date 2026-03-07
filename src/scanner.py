@@ -1,6 +1,10 @@
 import socket
 import json
 from datetime import datetime
+try:
+    from src.cve_lookup import enrich_scan_results
+except ModuleNotFoundError:
+    from cve_lookup import enrich_scan_results
 
 
 # ─────────────────────────────────────────
@@ -71,7 +75,7 @@ def scan_single_port(target_ip: str, port: int, timeout: float = 1.0) -> dict | 
                 "state": "open",
                 "service": get_service_name(port),
                 "risky": is_risky(port),
-                "scanned_at": datetime.utcnow().isoformat()
+                "scanned_at": datetime.now().isoformat()
             }
     except socket.error:
         pass
@@ -120,17 +124,17 @@ def scan_ports(target_ip: str, port_range: range) -> list:
 
 
 def generate_report(target_ip: str, open_ports: list) -> dict:
-    """
-    Generates a structured scan report.
-    This is what gets saved, displayed, and later sent to your dashboard.
-    """
     risky_ports = [p for p in open_ports if p["risky"]]
+
+    # Count total CVEs found across all ports
+    total_cves = sum(p.get("cve_count", 0) for p in open_ports)
 
     report = {
         "target": target_ip,
         "scan_time": datetime.utcnow().isoformat(),
         "total_open_ports": len(open_ports),
         "risky_ports_found": len(risky_ports),
+        "total_cves_found": total_cves,           # NEW
         "risk_level": "HIGH" if risky_ports else "LOW",
         "open_ports": open_ports,
         "risky_ports": risky_ports
@@ -139,15 +143,19 @@ def generate_report(target_ip: str, open_ports: list) -> dict:
     return report
 
 
-def run_scan(target_ip: str, port_range: range) -> dict:
+def run_scan(target_ip: str, port_range: range, lookup_cves: bool = True) -> dict:
     """
-    Main function — runs a full scan and returns the report.
+    Main function — runs full scan + optional CVE lookup.
     """
     open_ports = scan_ports(target_ip, port_range)
 
     # Add banners to open ports
     for port_result in open_ports:
         port_result["banner"] = grab_banner(target_ip, port_result["port"])
+
+    # NEW — enrich with CVE data if requested
+    if lookup_cves and open_ports:
+        open_ports = enrich_scan_results(open_ports)
 
     report = generate_report(target_ip, open_ports)
 

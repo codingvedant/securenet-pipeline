@@ -17,4 +17,4 @@ venv/
 Thumbs.db
 
 # VS Code
-.vscode/
+.vscode/reports/*.json

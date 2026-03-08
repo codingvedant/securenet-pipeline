@@ -18,3 +18,4 @@ Thumbs.db
 
 # VS Code
 .vscode/reports/*.json
+reports/*.json

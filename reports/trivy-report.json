@@ -1,0 +1,799 @@
+{
+  "SchemaVersion": 2,
+  "CreatedAt": "2026-03-07T18:17:52.887574208-05:00",
+  "ArtifactName": "securenet:v1",
+  "ArtifactType": "container_image",
+  "Metadata": {
+    "Size": 75763712,
+    "OS": {
+      "Family": "alpine",
+      "Name": "3.23.3"
+    },
+    "ImageID": "sha256:9b441a516c8210800305391ff560f4daefda36388d2622cb440a8216fdbb28cb",
+    "DiffIDs": [
+      "sha256:989e799e634906e94dc9a5ee2ee26fc92ad260522990f26e707861a5f52bf64e",
+      "sha256:28938f3838d762b9f6a6e003db3dd5bfc0b153ecb38efdb8cb2860c78a2bbe1f",
+      "sha256:4afdcff10571c778fee420ff55850683a15aba377126c914470abc034a14d5e1",
+      "sha256:f2241f5a47a3f5602c3ee3b1b6fbadb9a8e35ffd680baefd14ace0ae463f21ab",
+      "sha256:aae415e00616cc8165ad3ca7cae3a6de16d12206a77a0131fc51f01d5b0f7f67",
+      "sha256:f0b39cc6520daf85bc7472af3f9925e0043b0bc2e34d1e7b8b633852eb70e7d4",
+      "sha256:592126aed964e66a0c44304ea0fb88a24743c6808898e837383ec37e0866d46d",
+      "sha256:f89a15a48967797d36caeac90c36894e56d8b81669e060da2901b2d4cb1bdbc5",
+      "sha256:38d1953aa32a086e2ba386c9c52c78cb9704f26f7bb705820d9a1ded7c758df4"
+    ],
+    "RepoTags": [
+      "securenet:v1"
+    ],
+    "ImageConfig": {
+      "architecture": "amd64",
+      "created": "2026-03-07T18:16:20.181102285-05:00",
+      "history": [
+        {
+          "created": "2026-01-28T01:18:04Z",
+          "created_by": "ADD alpine-minirootfs-3.23.3-x86_64.tar.gz / # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2026-01-28T01:18:04Z",
+          "created_by": "CMD [\"/bin/sh\"]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2026-03-03T20:17:33Z",
+          "created_by": "ENV PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2026-03-03T20:17:33Z",
+          "created_by": "ENV LANG=C.UTF-8",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2026-03-03T20:17:33Z",
+          "created_by": "RUN /bin/sh -c set -eux; \tapk add --no-cache \t\tca-certificates \t\ttzdata \t; # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2026-03-03T20:17:33Z",
+          "created_by": "ENV GPG_KEY=A035C8C19219BA821ECEA86B64E628F8D684696D",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2026-03-03T20:17:33Z",
+          "created_by": "ENV PYTHON_VERSION=3.11.15",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2026-03-03T20:17:33Z",
+          "created_by": "ENV PYTHON_SHA256=272179ddd9a2e41a0fc8e42e33dfbdca0b3711aa5abf372d3f2d51543d09b625",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2026-03-03T20:22:05Z",
+          "created_by": "RUN /bin/sh -c set -eux; \t\tapk add --no-cache --virtual .build-deps \t\tbluez-dev \t\tbzip2-dev \t\tdpkg-dev dpkg \t\tfindutils \t\tgcc \t\tgdbm-dev \t\tgnupg \t\tlibc-dev \t\tlibffi-dev \t\tlibnsl-dev \t\tlibtirpc-dev \t\tlinux-headers \t\tmake \t\tncurses-dev \t\topenssl-dev \t\tpax-utils \t\treadline-dev \t\tsqlite-dev \t\ttar \t\ttcl-dev \t\ttk \t\ttk-dev \t\tutil-linux-dev \t\txz \t\txz-dev \t\tzlib-dev \t; \t\twget -O python.tar.xz \"https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz\"; \techo \"$PYTHON_SHA256 *python.tar.xz\" | sha256sum -c -; \twget -O python.tar.xz.asc \"https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz.asc\"; \tGNUPGHOME=\"$(mktemp -d)\"; export GNUPGHOME; \tgpg --batch --keyserver hkps://keys.openpgp.org --recv-keys \"$GPG_KEY\"; \tgpg --batch --verify python.tar.xz.asc python.tar.xz; \tgpgconf --kill all; \trm -rf \"$GNUPGHOME\" python.tar.xz.asc; \tmkdir -p /usr/src/python; \ttar --extract --directory /usr/src/python --strip-components=1 --file python.tar.xz; \trm python.tar.xz; \t\tcd /usr/src/python; \tgnuArch=\"$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)\"; \t./configure \t\t--build=\"$gnuArch\" \t\t--enable-loadable-sqlite-extensions \t\t--enable-option-checking=fatal \t\t--enable-shared \t\t$(test \"${gnuArch%%-*}\" != 'riscv64' \u0026\u0026 echo '--with-lto') \t\t--with-ensurepip \t; \tnproc=\"$(nproc)\"; \tEXTRA_CFLAGS=\"-DTHREAD_STACK_SIZE=0x100000\"; \tLDFLAGS=\"${LDFLAGS:-} -Wl,--strip-all\"; \tmake -j \"$nproc\" \t\t\"EXTRA_CFLAGS=${EXTRA_CFLAGS:-}\" \t\t\"LDFLAGS=${LDFLAGS:-}\" \t; \trm python; \tmake -j \"$nproc\" \t\t\"EXTRA_CFLAGS=${EXTRA_CFLAGS:-}\" \t\t\"LDFLAGS=${LDFLAGS:-} -Wl,-rpath='\\$\\$ORIGIN/../lib'\" \t\tpython \t; \tmake install; \t\tcd /; \trm -rf /usr/src/python; \t\tfind /usr/local -depth \t\t\\( \t\t\t\\( -type d -a \\( -name test -o -name tests -o -name idle_test \\) \\) \t\t\t-o \\( -type f -a \\( -name '*.pyc' -o -name '*.pyo' -o -name 'libpython*.a' \\) \\) \t\t\\) -exec rm -rf '{}' + \t; \t\tfind /usr/local -type f -executable -not \\( -name '*tkinter*' \\) -exec scanelf --needed --nobanner --format '%n#p' '{}' ';' \t\t| tr ',' '\\n' \t\t| sort -u \t\t| awk 'system(\"[ -e /usr/local/lib/\" $1 \" ]\") == 0 { next } { print \"so:\" $1 }' \t\t| xargs -rt apk add --no-network --virtual .python-rundeps \t; \tapk del --no-network .build-deps; \t\texport PYTHONDONTWRITEBYTECODE=1; \tpython3 --version; \t\tpip3 install \t\t--disable-pip-version-check \t\t--no-cache-dir \t\t--no-compile \t\t'setuptools==79.0.1' \t\t'wheel\u003c0.46' \t; \tpip3 --version # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2026-03-03T20:22:05Z",
+          "created_by": "RUN /bin/sh -c set -eux; \tfor src in idle3 pip3 pydoc3 python3 python3-config; do \t\tdst=\"$(echo \"$src\" | tr -d 3)\"; \t\t[ -s \"/usr/local/bin/$src\" ]; \t\t[ ! -e \"/usr/local/bin/$dst\" ]; \t\tln -svT \"$src\" \"/usr/local/bin/$dst\"; \tdone # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2026-03-03T20:22:05Z",
+          "created_by": "CMD [\"python3\"]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2026-03-07T02:08:19Z",
+          "created_by": "RUN /bin/sh -c addgroup -S appgroup \u0026\u0026 adduser -S appuser -G appgroup # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2026-03-07T02:08:19Z",
+          "created_by": "WORKDIR /app",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2026-03-07T02:08:19Z",
+          "created_by": "COPY requirements.txt . # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2026-03-07T02:08:25Z",
+          "created_by": "RUN /bin/sh -c pip install --no-cache-dir -r requirements.txt # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2026-03-07T23:16:20Z",
+          "created_by": "COPY src/ ./src/ # buildkit",
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "created": "2026-03-07T23:16:20Z",
+          "created_by": "USER appuser",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        },
+        {
+          "created": "2026-03-07T23:16:20Z",
+          "created_by": "CMD [\"python\" \"src/scanner.py\"]",
+          "comment": "buildkit.dockerfile.v0",
+          "empty_layer": true
+        }
+      ],
+      "os": "linux",
+      "rootfs": {
+        "type": "layers",
+        "diff_ids": [
+          "sha256:989e799e634906e94dc9a5ee2ee26fc92ad260522990f26e707861a5f52bf64e",
+          "sha256:28938f3838d762b9f6a6e003db3dd5bfc0b153ecb38efdb8cb2860c78a2bbe1f",
+          "sha256:4afdcff10571c778fee420ff55850683a15aba377126c914470abc034a14d5e1",
+          "sha256:f2241f5a47a3f5602c3ee3b1b6fbadb9a8e35ffd680baefd14ace0ae463f21ab",
+          "sha256:aae415e00616cc8165ad3ca7cae3a6de16d12206a77a0131fc51f01d5b0f7f67",
+          "sha256:f0b39cc6520daf85bc7472af3f9925e0043b0bc2e34d1e7b8b633852eb70e7d4",
+          "sha256:592126aed964e66a0c44304ea0fb88a24743c6808898e837383ec37e0866d46d",
+          "sha256:f89a15a48967797d36caeac90c36894e56d8b81669e060da2901b2d4cb1bdbc5",
+          "sha256:38d1953aa32a086e2ba386c9c52c78cb9704f26f7bb705820d9a1ded7c758df4"
+        ]
+      },
+      "config": {
+        "Cmd": [
+          "python",
+          "src/scanner.py"
+        ],
+        "Env": [
+          "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+          "LANG=C.UTF-8",
+          "GPG_KEY=A035C8C19219BA821ECEA86B64E628F8D684696D",
+          "PYTHON_VERSION=3.11.15",
+          "PYTHON_SHA256=272179ddd9a2e41a0fc8e42e33dfbdca0b3711aa5abf372d3f2d51543d09b625"
+        ],
+        "User": "appuser",
+        "WorkingDir": "/app",
+        "ArgsEscaped": true
+      }
+    },
+    "Layers": [
+      {
+        "Size": 8724480,
+        "DiffID": "sha256:989e799e634906e94dc9a5ee2ee26fc92ad260522990f26e707861a5f52bf64e"
+      },
+      {
+        "Size": 1678336,
+        "DiffID": "sha256:28938f3838d762b9f6a6e003db3dd5bfc0b153ecb38efdb8cb2860c78a2bbe1f"
+      },
+      {
+        "Size": 46647296,
+        "DiffID": "sha256:4afdcff10571c778fee420ff55850683a15aba377126c914470abc034a14d5e1"
+      },
+      {
+        "Size": 5120,
+        "DiffID": "sha256:f2241f5a47a3f5602c3ee3b1b6fbadb9a8e35ffd680baefd14ace0ae463f21ab"
+      },
+      {
+        "Size": 10752,
+        "DiffID": "sha256:aae415e00616cc8165ad3ca7cae3a6de16d12206a77a0131fc51f01d5b0f7f67"
+      },
+      {
+        "Size": 1536,
+        "DiffID": "sha256:f0b39cc6520daf85bc7472af3f9925e0043b0bc2e34d1e7b8b633852eb70e7d4"
+      },
+      {
+        "Size": 2560,
+        "DiffID": "sha256:592126aed964e66a0c44304ea0fb88a24743c6808898e837383ec37e0866d46d"
+      },
+      {
+        "Size": 18662400,
+        "DiffID": "sha256:f89a15a48967797d36caeac90c36894e56d8b81669e060da2901b2d4cb1bdbc5"
+      },
+      {
+        "Size": 31232,
+        "DiffID": "sha256:38d1953aa32a086e2ba386c9c52c78cb9704f26f7bb705820d9a1ded7c758df4"
+      }
+    ]
+  },
+  "Results": [
+    {
+      "Target": "securenet:v1 (alpine 3.23.3)",
+      "Class": "os-pkgs",
+      "Type": "alpine",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2026-22184",
+          "PkgID": "zlib@1.3.1-r2",
+          "PkgName": "zlib",
+          "PkgIdentifier": {
+            "PURL": "pkg:apk/alpine/zlib@1.3.1-r2?arch=x86_64\u0026distro=3.23.3",
+            "UID": "4fcd0ec5030a15a0"
+          },
+          "InstalledVersion": "1.3.1-r2",
+          "FixedVersion": "1.3.2-r0",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:989e799e634906e94dc9a5ee2ee26fc92ad260522990f26e707861a5f52bf64e"
+          },
+          "SeveritySource": "nvd",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-22184",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          },
+          "Title": "zlib: zlib: Arbitrary code execution via buffer overflow in untgz utility",
+          "Description": "zlib versions up to and including 1.3.1.2 include a global buffer overflow in the untgz utility located under contrib/untgz. The vulnerability is limited to the standalone demonstration utility and does not affect the core zlib compression library. The flaw occurs when a user executes the untgz command with an excessively long archive name supplied via the command line, leading to an out-of-bounds write in a fixed-size global buffer.",
+          "Severity": "CRITICAL",
+          "CweIDs": [
+            "CWE-787"
+          ],
+          "VendorSeverity": {
+            "nvd": 4,
+            "redhat": 3
+          },
+          "CVSS": {
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "V3Score": 9.8
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H",
+              "V3Score": 8.6
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2026-22184",
+            "https://github.com/madler/zlib",
+            "https://github.com/madler/zlib/issues/1142",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-22184",
+            "https://seclists.org/fulldisclosure/2026/Jan/3",
+            "https://www.cve.org/CVERecord?id=CVE-2026-22184",
+            "https://www.vulncheck.com/advisories/zlib-untgz-global-buffer-overflow-in-tgzfname",
+            "https://zlib.net/"
+          ],
+          "PublishedDate": "2026-01-07T21:16:01.563Z",
+          "LastModifiedDate": "2026-01-15T14:16:27.047Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-27171",
+          "PkgID": "zlib@1.3.1-r2",
+          "PkgName": "zlib",
+          "PkgIdentifier": {
+            "PURL": "pkg:apk/alpine/zlib@1.3.1-r2?arch=x86_64\u0026distro=3.23.3",
+            "UID": "4fcd0ec5030a15a0"
+          },
+          "InstalledVersion": "1.3.1-r2",
+          "FixedVersion": "1.3.2-r0",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:989e799e634906e94dc9a5ee2ee26fc92ad260522990f26e707861a5f52bf64e"
+          },
+          "SeveritySource": "nvd",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-27171",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          },
+          "Title": "zlib: zlib: Denial of Service via infinite loop in CRC32 combine functions",
+          "Description": "zlib before 1.3.2 allows CPU consumption via crc32_combine64 and crc32_combine_gen64 because x2nmodp can do right shifts within a loop that has no termination condition.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-1284"
+          ],
+          "VendorSeverity": {
+            "nvd": 2,
+            "redhat": 1,
+            "ubuntu": 1
+          },
+          "CVSS": {
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 5.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L",
+              "V3Score": 2.9
+            }
+          },
+          "References": [
+            "https://7asecurity.com/blog/2026/02/zlib-7asecurity-audit/",
+            "https://7asecurity.com/reports/pentest-report-zlib-RC1.1.pdf",
+            "https://access.redhat.com/security/cve/CVE-2026-27171",
+            "https://github.com/madler/zlib/issues/904",
+            "https://github.com/madler/zlib/releases/tag/v1.3.2",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-27171",
+            "https://ostif.org/zlib-audit-complete/",
+            "https://www.cve.org/CVERecord?id=CVE-2026-27171"
+          ],
+          "PublishedDate": "2026-02-18T04:16:01.263Z",
+          "LastModifiedDate": "2026-02-20T16:45:28.827Z"
+        }
+      ]
+    },
+    {
+      "Target": "Python",
+      "Class": "lang-pkgs",
+      "Type": "python-pkg",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2026-23949",
+          "PkgName": "jaraco.context",
+          "PkgPath": "usr/local/lib/python3.11/site-packages/setuptools/_vendor/jaraco.context-5.3.0.dist-info/METADATA",
+          "PkgIdentifier": {
+            "PURL": "pkg:pypi/jaraco.context@5.3.0",
+            "UID": "f7ada31fec6eb6e1"
+          },
+          "InstalledVersion": "5.3.0",
+          "FixedVersion": "6.1.0",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:4afdcff10571c778fee420ff55850683a15aba377126c914470abc034a14d5e1"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-23949",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory pip",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Apip"
+          },
+          "Title": "jaraco.context: jaraco.context: Path traversal via malicious tar archives",
+          "Description": "jaraco.context, an open-source software package that provides some useful decorators and context managers, has a Zip Slip path traversal vulnerability in the `jaraco.context.tarball()` function starting in version 5.2.0 and prior to version 6.1.0. The vulnerability may allow attackers to extract files outside the intended extraction directory when malicious tar archives are processed. The strip_first_component filter splits the path on the first `/` and extracts the second component, while allowing `../` sequences. Paths like `dummy_dir/../../etc/passwd` become `../../etc/passwd`. Note that this suffers from a nested tarball attack as well with multi-level tar files such as `dummy_dir/inner.tar.gz`, where the inner.tar.gz includes a traversal `dummy_dir/../../config/.env` that also gets translated to `../../config/.env`. Version 6.1.0 contains a patch for the issue.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-22"
+          ],
+          "VendorSeverity": {
+            "ghsa": 3,
+            "redhat": 3,
+            "ubuntu": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N",
+              "V3Score": 8.6
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N",
+              "V3Score": 8.6
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2026-23949",
+            "https://github.com/jaraco/jaraco.context",
+            "https://github.com/jaraco/jaraco.context/blob/main/jaraco/context/__init__.py#L74-L91",
+            "https://github.com/jaraco/jaraco.context/commit/7b26a42b525735e4085d2e994e13802ea339d5f9",
+            "https://github.com/jaraco/jaraco.context/security/advisories/GHSA-58pv-8j8x-9vj2",
+            "https://github.com/pypa/setuptools/blob/main/setuptools/_vendor/jaraco/context.py#L55-L76",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-23949",
+            "https://ubuntu.com/security/notices/USN-7979-1",
+            "https://www.cve.org/CVERecord?id=CVE-2026-23949"
+          ],
+          "PublishedDate": "2026-01-20T01:15:57.723Z",
+          "LastModifiedDate": "2026-01-26T15:05:23.427Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2025-8869",
+          "PkgName": "pip",
+          "PkgPath": "usr/local/lib/python3.11/site-packages/pip-24.0.dist-info/METADATA",
+          "PkgIdentifier": {
+            "PURL": "pkg:pypi/pip@24.0",
+            "UID": "55a4d9bee68c93ea"
+          },
+          "InstalledVersion": "24.0",
+          "FixedVersion": "25.3",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:4afdcff10571c778fee420ff55850683a15aba377126c914470abc034a14d5e1"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2025-8869",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory pip",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Apip"
+          },
+          "Title": "pip: pip missing checks on symbolic link extraction",
+          "Description": "When extracting a tar archive pip may not check symbolic links point into the extraction directory if the tarfile module doesn't implement PEP 706.\nNote that upgrading pip to a \"fixed\" version for this vulnerability doesn't fix all known vulnerabilities that are remediated by using a Python version that implements PEP 706.\n\nNote that this is a vulnerability in pip's fallback implementation of tar extraction for Python versions that don't implement PEP 706\nand therefore are not secure to all vulnerabilities in the Python 'tarfile' module. If you're using a Python version that implements PEP 706\nthen pip doesn't use the \"vulnerable\" fallback code.\n\nMitigations include upgrading to a version of pip that includes the fix, upgrading to a Python version that implements PEP 706 (Python \u003e=3.9.17, \u003e=3.10.12, \u003e=3.11.4, or \u003e=3.12),\napplying the linked patch, or inspecting source distributions (sdists) before installation as is already a best-practice.",
+          "Severity": "MEDIUM",
+          "VendorSeverity": {
+            "amazon": 2,
+            "azure": 2,
+            "bitnami": 2,
+            "ghsa": 2,
+            "redhat": 2,
+            "ubuntu": 2
+          },
+          "CVSS": {
+            "bitnami": {
+              "V40Vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:A/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N",
+              "V40Score": 5.9
+            },
+            "ghsa": {
+              "V40Vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:A/VC:N/VI:H/VA:N/SC:N/SI:N/SA:N",
+              "V40Score": 5.9
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:H/A:N",
+              "V3Score": 5.3
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2025-8869",
+            "https://github.com/pypa/pip",
+            "https://github.com/pypa/pip/commit/f2b92314da012b9fffa36b3f3e67748a37ef464a",
+            "https://github.com/pypa/pip/pull/13550",
+            "https://lists.debian.org/debian-lts-announce/2025/10/msg00028.html",
+            "https://mail.python.org/archives/list/security-announce@python.org/thread/IF5A3GCJY3VH7BVHJKOWOJFKTW7VFQEN",
+            "https://mail.python.org/archives/list/security-announce@python.org/thread/IF5A3GCJY3VH7BVHJKOWOJFKTW7VFQEN/",
+            "https://nvd.nist.gov/vuln/detail/CVE-2025-8869",
+            "https://pip.pypa.io/en/stable/news/#v25-2",
+            "https://www.cve.org/CVERecord?id=CVE-2025-8869"
+          ],
+          "PublishedDate": "2025-09-24T15:15:41.293Z",
+          "LastModifiedDate": "2025-11-03T18:17:02.783Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-1703",
+          "PkgName": "pip",
+          "PkgPath": "usr/local/lib/python3.11/site-packages/pip-24.0.dist-info/METADATA",
+          "PkgIdentifier": {
+            "PURL": "pkg:pypi/pip@24.0",
+            "UID": "55a4d9bee68c93ea"
+          },
+          "InstalledVersion": "24.0",
+          "FixedVersion": "26.0",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:4afdcff10571c778fee420ff55850683a15aba377126c914470abc034a14d5e1"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-1703",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory pip",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Apip"
+          },
+          "Title": "pip: pip: Information disclosure via path traversal when installing crafted wheel archives",
+          "Description": "When pip is installing and extracting a maliciously crafted wheel archive, files may be extracted outside the installation directory. The path traversal is limited to prefixes of the installation directory, thus isn't able to inject or overwrite executable files in typical situations.",
+          "Severity": "LOW",
+          "CweIDs": [
+            "CWE-22"
+          ],
+          "VendorSeverity": {
+            "bitnami": 1,
+            "ghsa": 1,
+            "redhat": 1
+          },
+          "CVSS": {
+            "bitnami": {
+              "V40Vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:A/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N",
+              "V40Score": 2
+            },
+            "ghsa": {
+              "V40Vector": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:A/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N",
+              "V40Score": 2
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:L/I:L/A:N",
+              "V3Score": 3.9
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2026-1703",
+            "https://github.com/pypa/pip",
+            "https://github.com/pypa/pip/commit/8e227a9be4faa9594e05d02ca05a413a2a4e7735",
+            "https://github.com/pypa/pip/pull/13777",
+            "https://mail.python.org/archives/list/security-announce@python.org/thread/WIEA34D4TABF2UNQJAOMXKCICSPBE2DJ",
+            "https://mail.python.org/archives/list/security-announce@python.org/thread/WIEA34D4TABF2UNQJAOMXKCICSPBE2DJ/",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-1703",
+            "https://www.cve.org/CVERecord?id=CVE-2026-1703"
+          ],
+          "PublishedDate": "2026-02-02T15:16:30.51Z",
+          "LastModifiedDate": "2026-02-03T16:44:36.63Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2024-35195",
+          "PkgName": "requests",
+          "PkgPath": "usr/local/lib/python3.11/site-packages/requests-2.31.0.dist-info/METADATA",
+          "PkgIdentifier": {
+            "PURL": "pkg:pypi/requests@2.31.0",
+            "UID": "3594289919a25f96"
+          },
+          "InstalledVersion": "2.31.0",
+          "FixedVersion": "2.32.0",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:f89a15a48967797d36caeac90c36894e56d8b81669e060da2901b2d4cb1bdbc5"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-35195",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory pip",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Apip"
+          },
+          "Title": "requests: subsequent requests to the same host ignore cert verification",
+          "Description": "Requests is a HTTP library. Prior to 2.32.0, when making requests through a Requests `Session`, if the first request is made with `verify=False` to disable cert verification, all subsequent requests to the same host will continue to ignore cert verification regardless of changes to the value of `verify`. This behavior will continue for the lifecycle of the connection in the connection pool. This vulnerability is fixed in 2.32.0.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-670"
+          ],
+          "VendorSeverity": {
+            "alma": 2,
+            "amazon": 2,
+            "azure": 2,
+            "cbl-mariner": 2,
+            "ghsa": 2,
+            "oracle-oval": 2,
+            "photon": 2,
+            "redhat": 2,
+            "rocky": 2,
+            "ubuntu": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:L/AC:H/PR:H/UI:R/S:U/C:H/I:H/A:N",
+              "V3Score": 5.6
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:L/AC:H/PR:H/UI:R/S:U/C:H/I:H/A:N",
+              "V3Score": 5.6
+            }
+          },
+          "References": [
+            "https://access.redhat.com/errata/RHSA-2025:7049",
+            "https://access.redhat.com/security/cve/CVE-2024-35195",
+            "https://bugzilla.redhat.com/2282114",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2282114",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-35195",
+            "https://errata.almalinux.org/9/ALSA-2025-7049.html",
+            "https://errata.rockylinux.org/RLSA-2025:7049",
+            "https://github.com/psf/requests",
+            "https://github.com/psf/requests/commit/a58d7f2ffb4d00b46dca2d70a3932a0b37e22fac",
+            "https://github.com/psf/requests/pull/6655",
+            "https://github.com/psf/requests/security/advisories/GHSA-9wx4-h78v-vm56",
+            "https://linux.oracle.com/cve/CVE-2024-35195.html",
+            "https://linux.oracle.com/errata/ELSA-2025-7049.html",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/IYLSNK5TL46Q6XPRVMHVWS63MVJQOK4Q",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/IYLSNK5TL46Q6XPRVMHVWS63MVJQOK4Q/",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/N7WP6EYDSUOCOJYHDK5NX43PYZ4SNHGZ",
+            "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/N7WP6EYDSUOCOJYHDK5NX43PYZ4SNHGZ/",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-35195",
+            "https://www.cve.org/CVERecord?id=CVE-2024-35195"
+          ],
+          "PublishedDate": "2024-05-20T21:15:09.99Z",
+          "LastModifiedDate": "2024-11-21T09:19:54.51Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2024-47081",
+          "PkgName": "requests",
+          "PkgPath": "usr/local/lib/python3.11/site-packages/requests-2.31.0.dist-info/METADATA",
+          "PkgIdentifier": {
+            "PURL": "pkg:pypi/requests@2.31.0",
+            "UID": "3594289919a25f96"
+          },
+          "InstalledVersion": "2.31.0",
+          "FixedVersion": "2.32.4",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:f89a15a48967797d36caeac90c36894e56d8b81669e060da2901b2d4cb1bdbc5"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2024-47081",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory pip",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Apip"
+          },
+          "Title": "requests: Requests vulnerable to .netrc credentials leak via malicious URLs",
+          "Description": "Requests is a HTTP library. Due to a URL parsing issue, Requests releases prior to 2.32.4 may leak .netrc credentials to third parties for specific maliciously-crafted URLs. Users should upgrade to version 2.32.4 to receive a fix. For older versions of Requests, use of the .netrc file can be disabled with `trust_env=False` on one's Requests Session.",
+          "Severity": "MEDIUM",
+          "CweIDs": [
+            "CWE-522"
+          ],
+          "VendorSeverity": {
+            "alma": 2,
+            "amazon": 2,
+            "azure": 2,
+            "cbl-mariner": 2,
+            "ghsa": 2,
+            "oracle-oval": 2,
+            "photon": 2,
+            "redhat": 2,
+            "rocky": 2,
+            "ubuntu": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:N/A:N",
+              "V3Score": 5.3
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:N/A:N",
+              "V3Score": 5.3
+            }
+          },
+          "References": [
+            "http://seclists.org/fulldisclosure/2025/Jun/2",
+            "http://www.openwall.com/lists/oss-security/2025/06/03/11",
+            "http://www.openwall.com/lists/oss-security/2025/06/03/9",
+            "http://www.openwall.com/lists/oss-security/2025/06/04/1",
+            "http://www.openwall.com/lists/oss-security/2025/06/04/6",
+            "https://access.redhat.com/errata/RHSA-2025:12519",
+            "https://access.redhat.com/security/cve/CVE-2024-47081",
+            "https://bugzilla.redhat.com/2371272",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2371272",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-47081",
+            "https://errata.almalinux.org/9/ALSA-2025-12519.html",
+            "https://errata.rockylinux.org/RLSA-2025:12519",
+            "https://github.com/psf/requests",
+            "https://github.com/psf/requests/commit/96ba401c1296ab1dda74a2365ef36d88f7d144ef",
+            "https://github.com/psf/requests/pull/6965",
+            "https://github.com/psf/requests/security/advisories/GHSA-9hjg-9r4m-mvj7",
+            "https://linux.oracle.com/cve/CVE-2024-47081.html",
+            "https://linux.oracle.com/errata/ELSA-2025-14999.html",
+            "https://nvd.nist.gov/vuln/detail/CVE-2024-47081",
+            "https://requests.readthedocs.io/en/latest/api/#requests.Session.trust_env",
+            "https://seclists.org/fulldisclosure/2025/Jun/2",
+            "https://ubuntu.com/security/notices/USN-7568-1",
+            "https://ubuntu.com/security/notices/USN-7762-1",
+            "https://www.cve.org/CVERecord?id=CVE-2024-47081",
+            "https://www.openwall.com/lists/oss-security/2025/06/03/9"
+          ],
+          "PublishedDate": "2025-06-09T18:15:24.983Z",
+          "LastModifiedDate": "2025-06-12T16:06:47.857Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-24049",
+          "PkgName": "wheel",
+          "PkgPath": "usr/local/lib/python3.11/site-packages/setuptools/_vendor/wheel-0.45.1.dist-info/METADATA",
+          "PkgIdentifier": {
+            "PURL": "pkg:pypi/wheel@0.45.1",
+            "UID": "b90c17bff082400"
+          },
+          "InstalledVersion": "0.45.1",
+          "FixedVersion": "0.46.2",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:4afdcff10571c778fee420ff55850683a15aba377126c914470abc034a14d5e1"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-24049",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory pip",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Apip"
+          },
+          "Title": "wheel: wheel: Privilege Escalation or Arbitrary Code Execution via malicious wheel file unpacking",
+          "Description": "wheel is a command line tool for manipulating Python wheel files, as defined in PEP 427. In versions 0.40.0 through 0.46.1, the unpack function is vulnerable to file permission modification through mishandling of file permissions after extraction. The logic blindly trusts the filename from the archive header for the chmod operation, even though the extraction process itself might have sanitized the path. Attackers can craft a malicious wheel file that, when unpacked, changes the permissions of critical system files (e.g., /etc/passwd, SSH keys, config files), allowing for Privilege Escalation or arbitrary code execution by modifying now-writable scripts. This issue has been fixed in version 0.46.2.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-22",
+            "CWE-732"
+          ],
+          "VendorSeverity": {
+            "alma": 3,
+            "amazon": 3,
+            "ghsa": 3,
+            "nvd": 2,
+            "oracle-oval": 3,
+            "redhat": 3,
+            "rocky": 3
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:H",
+              "V3Score": 7.1
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N",
+              "V3Score": 5.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:H",
+              "V3Score": 7.1
+            }
+          },
+          "References": [
+            "https://access.redhat.com/errata/RHSA-2026:1939",
+            "https://access.redhat.com/security/cve/CVE-2026-24049",
+            "https://bugzilla.redhat.com/2431959",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2431959",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-24049",
+            "https://errata.almalinux.org/9/ALSA-2026-1939.html",
+            "https://errata.rockylinux.org/RLSA-2026:1939",
+            "https://github.com/pypa/wheel",
+            "https://github.com/pypa/wheel/commit/7a7d2de96b22a9adf9208afcc9547e1001569fef",
+            "https://github.com/pypa/wheel/commit/934fe177ff912c8e03d5ae951d3805e1fd90ba5e",
+            "https://github.com/pypa/wheel/releases/tag/0.46.2",
+            "https://github.com/pypa/wheel/security/advisories/GHSA-8rrh-rw8j-w5fx",
+            "https://linux.oracle.com/cve/CVE-2026-24049.html",
+            "https://linux.oracle.com/errata/ELSA-2026-2090.html",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-24049",
+            "https://www.cve.org/CVERecord?id=CVE-2026-24049"
+          ],
+          "PublishedDate": "2026-01-22T05:16:23.157Z",
+          "LastModifiedDate": "2026-02-18T14:56:48.657Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-24049",
+          "PkgName": "wheel",
+          "PkgPath": "usr/local/lib/python3.11/site-packages/wheel-0.45.1.dist-info/METADATA",
+          "PkgIdentifier": {
+            "PURL": "pkg:pypi/wheel@0.45.1",
+            "UID": "ad0c7b655481c4c"
+          },
+          "InstalledVersion": "0.45.1",
+          "FixedVersion": "0.46.2",
+          "Status": "fixed",
+          "Layer": {
+            "DiffID": "sha256:4afdcff10571c778fee420ff55850683a15aba377126c914470abc034a14d5e1"
+          },
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-24049",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory pip",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Apip"
+          },
+          "Title": "wheel: wheel: Privilege Escalation or Arbitrary Code Execution via malicious wheel file unpacking",
+          "Description": "wheel is a command line tool for manipulating Python wheel files, as defined in PEP 427. In versions 0.40.0 through 0.46.1, the unpack function is vulnerable to file permission modification through mishandling of file permissions after extraction. The logic blindly trusts the filename from the archive header for the chmod operation, even though the extraction process itself might have sanitized the path. Attackers can craft a malicious wheel file that, when unpacked, changes the permissions of critical system files (e.g., /etc/passwd, SSH keys, config files), allowing for Privilege Escalation or arbitrary code execution by modifying now-writable scripts. This issue has been fixed in version 0.46.2.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-22",
+            "CWE-732"
+          ],
+          "VendorSeverity": {
+            "alma": 3,
+            "amazon": 3,
+            "ghsa": 3,
+            "nvd": 2,
+            "oracle-oval": 3,
+            "redhat": 3,
+            "rocky": 3
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:H",
+              "V3Score": 7.1
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N",
+              "V3Score": 5.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:H",
+              "V3Score": 7.1
+            }
+          },
+          "References": [
+            "https://access.redhat.com/errata/RHSA-2026:1939",
+            "https://access.redhat.com/security/cve/CVE-2026-24049",
+            "https://bugzilla.redhat.com/2431959",
+            "https://bugzilla.redhat.com/show_bug.cgi?id=2431959",
+            "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-24049",
+            "https://errata.almalinux.org/9/ALSA-2026-1939.html",
+            "https://errata.rockylinux.org/RLSA-2026:1939",
+            "https://github.com/pypa/wheel",
+            "https://github.com/pypa/wheel/commit/7a7d2de96b22a9adf9208afcc9547e1001569fef",
+            "https://github.com/pypa/wheel/commit/934fe177ff912c8e03d5ae951d3805e1fd90ba5e",
+            "https://github.com/pypa/wheel/releases/tag/0.46.2",
+            "https://github.com/pypa/wheel/security/advisories/GHSA-8rrh-rw8j-w5fx",
+            "https://linux.oracle.com/cve/CVE-2026-24049.html",
+            "https://linux.oracle.com/errata/ELSA-2026-2090.html",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-24049",
+            "https://www.cve.org/CVERecord?id=CVE-2026-24049"
+          ],
+          "PublishedDate": "2026-01-22T05:16:23.157Z",
+          "LastModifiedDate": "2026-02-18T14:56:48.657Z"
+        }
+      ]
+    }
+  ]
+}

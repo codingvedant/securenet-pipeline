@@ -60,10 +60,26 @@ jobs:
         with:
           args: --severity-threshold=high
 
+  terraform-scan:
+    name: Terraform Security Scan
+    runs-on: ubuntu-latest
+    needs: security-scan
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Checkov on Terraform files
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: terraform/
+          framework: terraform
+          soft_fail: true
+
   docker-build-scan:
     name: Docker Build and Trivy Scan
     runs-on: ubuntu-latest
-    needs: security-scan
+    needs: terraform-scan
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

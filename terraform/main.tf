@@ -212,6 +212,7 @@ resource "aws_instance" "scanner" {
   subnet_id              = aws_subnet.public.id
   vpc_security_group_ids = [aws_security_group.scanner.id]
   iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
+  key_name               = "securenet-key"
 
   # User data — commands that run when EC2 first starts
   # This installs Docker automatically on boot

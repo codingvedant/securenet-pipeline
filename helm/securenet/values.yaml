@@ -1,0 +1,21 @@
+replicaCount: 1
+
+image:
+  repository: 855246887902.dkr.ecr.us-east-1.amazonaws.com/securenet
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 80
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 256Mi
+  requests:
+    cpu: 250m
+    memory: 128Mi
+
+scanner:
+  targetIp: "127.0.0.1"

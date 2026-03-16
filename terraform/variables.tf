@@ -37,5 +37,5 @@ variable "public_subnet_cidr" {
 variable "instance_type" {
   description = "EC2 instance type"
   type        = string
-  default     = "t3.micro"  # free tier eligible
+  default     = "t3.medium"  # free tier eligible
 }

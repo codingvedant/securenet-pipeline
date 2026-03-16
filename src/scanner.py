@@ -1,3 +1,5 @@
+from prometheus_client import Counter, Histogram, Gauge, start_http_server
+import time
 import socket
 import json
 from datetime import datetime
@@ -5,6 +7,38 @@ try:
     from src.cve_lookup import enrich_scan_results
 except ModuleNotFoundError:
     from cve_lookup import enrich_scan_results
+
+
+# Prometheus metrics
+SCANS_TOTAL = Counter(
+    'securenet_scans_total',
+    'Total number of scans completed'
+)
+
+OPEN_PORTS_FOUND = Counter(
+    'securenet_open_ports_total',
+    'Total number of open ports found across all scans'
+)
+
+RISKY_PORTS_FOUND = Counter(
+    'securenet_risky_ports_total',
+    'Total number of risky ports found'
+)
+
+CVES_FOUND = Counter(
+    'securenet_cves_total',
+    'Total number of CVEs found'
+)
+
+SCAN_DURATION = Histogram(
+    'securenet_scan_duration_seconds',
+    'Time taken to complete a scan'
+)
+
+ACTIVE_SCANS = Gauge(
+    'securenet_active_scans',
+    'Number of scans currently running'
+)
 
 
 # ─────────────────────────────────────────
@@ -143,34 +177,60 @@ def generate_report(target_ip: str, open_ports: list) -> dict:
     return report
 
 
-def run_scan(target_ip: str, port_range: range, lookup_cves: bool = True) -> dict:
-    """
-    Main function — runs full scan + optional CVE lookup.
-    """
-    open_ports = scan_ports(target_ip, port_range)
+def run_scan(ip, port_range=(1, 1024), lookup_cves=False):
+    """Run a full scan and return results with metrics."""
+    
+    ACTIVE_SCANS.inc()  # increment active scans
+    start_time = time.time()
+    
+    try:
+        results = scan_ports(ip, port_range)
+        
+        if lookup_cves:
+            results = enrich_scan_results(results)
+        
+        report = generate_report(ip, results)
+        
+        # Record metrics
+        SCANS_TOTAL.inc()
+        OPEN_PORTS_FOUND.inc(len(results))
+        RISKY_PORTS_FOUND.inc(report['risky_ports_found'])
+        
+        if lookup_cves:
+            total_cves = sum(p.get('cve_count', 0) for p in results)
+            CVES_FOUND.inc(total_cves)
+        
+        # Record scan duration
+        duration = time.time() - start_time
+        SCAN_DURATION.observe(duration)
+        
+        return report
+    
+    finally:
+        ACTIVE_SCANS.dec()  # decrement active scans when done
 
-    # Add banners to open ports
-    for port_result in open_ports:
-        port_result["banner"] = grab_banner(target_ip, port_result["port"])
-
-    # NEW — enrich with CVE data if requested
-    if lookup_cves and open_ports:
-        open_ports = enrich_scan_results(open_ports)
-
-    report = generate_report(target_ip, open_ports)
-
-    print(f"\n[✓] Scan complete.")
-    print(f"    Open ports  : {report['total_open_ports']}")
-    print(f"    Risky ports : {report['risky_ports_found']}")
-    print(f"    Risk level  : {report['risk_level']}\n")
-
-    return report
+def start_metrics_server(port=8000):
+    """Start Prometheus metrics HTTP server."""
+    start_http_server(port)
+    print(f"Metrics server running on port {port}")
 
 
 # ─────────────────────────────────────────
 # Run directly: python src/scanner.py
 # ─────────────────────────────────────────
 if __name__ == "__main__":
-    # Scan your own localhost as a safe test
-    result = run_scan("127.0.0.1", range(1, 1025))
-    print(json.dumps(result, indent=2))
+    import os
+    
+    # Start metrics server so Prometheus can scrape
+    start_metrics_server(8000)
+    
+    target_ip = os.environ.get('TARGET_IP', '127.0.0.1')
+    
+    print(f"Starting continuous scan of {target_ip}")
+    
+    # Scan continuously so container stays alive
+    # and Prometheus keeps collecting metrics
+    while True:
+        result = run_scan(target_ip, (1, 1024), lookup_cves=False)
+        print(f"Scan complete — {result['total_open_ports']} ports found")
+        time.sleep(300)  # scan every 5 minutes

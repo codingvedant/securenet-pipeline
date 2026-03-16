@@ -33,3 +33,8 @@ output "ssh_command" {
   description = "Command to SSH into your EC2"
   value       = "ssh -i securenet-key.pem ec2-user@${aws_instance.scanner.public_ip}"
 }
+
+output "sns_topic_arn" {
+  description = "SNS topic ARN for alerts"
+  value       = aws_sns_topic.alerts.arn
+}
